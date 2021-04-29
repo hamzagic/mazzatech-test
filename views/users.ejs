@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/users.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="title">Clientes Inadimplentes</h2>
+      <form action="/" method="POST">
+        <input
+          class="inputs"
+          type="text"
+          name="fname"
+          placeholder="Nome do cliente"
+        />
+        <!-- <button type="submit">Buscar</button> -->
+        <input class="btn" type="submit" value="Buscar" />
+      </form>
+
+      <table class="table-container">
+        <form action="/" method="POST">
+          <tr class="trow">
+            <th class="item-title">
+              <input type="submit" class="hidden" name="name" value="Nome do cliente" />
+            </th>
+            <th class="item-title">
+              <input type="submit" class="hidden" name="amount" value="Valor">
+            </th>
+            <th class="item-title">
+              <input type="submit" class="hidden" name="date" value="Desde">
+            </th>
+          </tr>
+
+          <% for (var i = 0; i < users.length; i++) { %>
+          <tr class="trow">
+            <td class="item-name"><%= users[i].name %></td>
+            <td class="item-name"><%= users[i].amount %>,00</td>
+            <td class="item-name">
+                <%= users[i].date.getDate()%>/<%= users[i].date.getMonth() + 1%>/<%= users[i].date.getFullYear()%>
+            </td>
+          </tr>
+          <% } %>
+        </form>
+      </table>
+    </div>
+  </body>
+</html>
