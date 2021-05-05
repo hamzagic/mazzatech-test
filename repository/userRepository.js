@@ -16,29 +16,35 @@ class User {
         return this.data;
     }
 
-    async getAllUsers() {
-        this.data = await user.find();
-        return this.data;
+    async getAllUsers(offset, limit) {
+        this.total = await user.countDocuments();
+        this.data = await user.find({}).skip(offset).limit(limit);
+
+        return [this.data, this.total];
     }
 
-    async getByName(name) {
-        this.data = await user.find({name: { $regex: '.*' + name + '.*', $options: 'i' } });
-        return this.data;
+    async getByName(name, offset, limit) {
+        this.data = await user.find({name: { $regex: '.*' + name + '.*', $options: 'i' } }).skip(offset).limit(limit);
+        this.total = await user.find({name: { $regex: '.*' + name + '.*', $options: 'i' } }).countDocuments();
+        return [this.data, this.total];
     }
 
-    async sortByName() {
-        this.data = await user.find({}).sort({name: 'asc'});
-        return this.data;
+    async sortByName(offset, limit) {
+        this.total = await user.countDocuments();
+        this.data = await user.find({}).sort({name: 'asc'}).skip(offset).limit(limit);
+        return [this.data, this.total];
     }
 
-    async sortByAmount() {
-        this.data = await user.find({}).sort({amount: 'asc'});
-        return this.data;
+    async sortByAmount(offset, limit) {
+        this.total = await user.countDocuments();
+        this.data = await user.find({}).sort({amount: 'asc'}).skip(offset).limit(limit);
+        return [this.data, this.total];
     }
 
-    async sortByDate() {
-        this.data = await user.find({}).sort({date: 'asc'});
-        return this.data;
+    async sortByDate(offset, limit) {
+        this.total = await user.countDocuments();
+        this.data = await user.find({}).sort({date: 'asc'}).skip(offset).limit(limit);
+        return [this.data, this.total];
     }
 }
 
