@@ -20,6 +20,9 @@ app.use((req, res, next) => {
 });
 
 app.use(userRoutes);
+app.get('/', (req, res) => {
+  res.send("Mazzatech api");
+});
 
 mongoose
   .connect(process.env.MONGO_URL, { useNewUrlParser: true })
