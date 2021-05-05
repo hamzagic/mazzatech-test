@@ -15,69 +15,70 @@ exports.createUser = (name, amount, date) => {
 };
 
 exports.getUsers = (req, res) => {
-  user
-    .getAllUsers()
-    .then((resp) => {
-      const data = resp;
-      res.render("users", {
-        users: data,
-        pageTitle: "Clientes",
-        path: "/",
-      });
-    })
-    .catch((err) => {
-      res.status(422).json({ Error: err.message });
-    });
-};
+  const offset = req.body.offset;
+  const limit = req.body.limit;
+  const param = req.body.param;
 
-exports.searchByNameOrSort = (req, res) => {
-  const amount = req.body.amount;
-  const date = req.body.date;
-  const name = req.body.name;
-
-  if (amount) {
+  if (param == 'amount') {
     user
-      .sortByAmount()
+      .sortByAmount(offset, limit)
       .then((resp) => {
         const data = resp;
-        res.render("users", {
-          users: data,
-          pageTitle: "Clientes",
-        });
+        res.json({
+          "data": data[0],
+          "total": data[1]
+        })
       })
       .catch((err) => console.log(err));
-  } else if (date) {
+  } else if (param == 'date') {
     user
-      .sortByDate()
+      .sortByDate(offset, limit)
       .then((resp) => {
         const data = resp;
-        res.render("users", {
-          users: data,
-          pageTitle: "Clientes",
-        });
+        res.json({
+          "data": data[0],
+          "total": data[1]
+        })
       })
       .catch((err) => console.log(err));
-  } else if (name) {
+  } else if (param == 'name') {
     user
-      .sortByName()
+      .sortByName(offset, limit)
       .then((resp) => {
         const data = resp;
-        res.render("users", {
-          users: data,
-          pageTitle: "Clientes",
-        });
+        res.json({
+          "data": data[0],
+          "total": data[1]
+        })
       })
       .catch((err) => console.log(err));
   } else {
     user
-      .getByName(req.body.fname)
+      .getAllUsers(offset, limit)
       .then((resp) => {
         const data = resp;
-        res.render("users", {
-          users: data,
-          pageTitle: "Clientes",
+        res.json({
+          "data": data[0],
+          "total": data[1]
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        res.status(422).json({ Error: err.message });
+      });
   }
+};
+
+exports.searchByName = (req, res) => {
+  const offset = req.body.offset;
+  const limit = req.body.limit;
+    user
+      .getByName(req.body.fname, offset, limit)
+      .then((resp) => {
+        const data = resp;
+        res.json({
+          "data": data[0],
+          "total": data[1]
+        })
+      })
+      .catch((err) => console.log(err));
 };
