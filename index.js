@@ -1,10 +1,12 @@
 const express = require("express");
+const dotenv = require('dotenv');
 const mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 const userRoutes = require("./routes/user");
 const userController = require("./controllers/userController");
 
 const app = express();
+dotenv.config();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,7 +22,7 @@ app.use((req, res, next) => {
 app.use(userRoutes);
 
 mongoose
-  .connect("mongodb://mongo:27017/docker-node-mongo", { useNewUrlParser: true })
+  .connect(process.env.MONGO_URL, { useNewUrlParser: true })
   .then(() => {
     console.log("MongoDB connected");
     mongoose.connection.db.dropCollection("users", (err, result) => {

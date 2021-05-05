@@ -82,16 +82,3 @@ exports.searchByName = (req, res) => {
       })
       .catch((err) => console.log(err));
 };
-
-// exports.searchByName = (req, res) => {
-//   user
-//   .getByName(req.body.fname)
-//   .then((resp) => {
-//     const data = resp;
-//     res.json({
-//       "data": data[0],
-//       "total": data[1]
-//     })
-//   })
-//   .catch((err) => console.log(err));
-// }
